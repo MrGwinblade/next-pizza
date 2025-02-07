@@ -1,5 +1,4 @@
 import React from 'react';
-useCartStore
 import { CreateCartItemValues } from '../services/dto/cart.dto';
 import { CartStateItem } from '../lib/get-cart-details';
 import { useCartStore } from '@/store/cart';
