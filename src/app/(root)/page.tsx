@@ -12,7 +12,6 @@ export default async function Home({ searchParams }: { searchParams: Promise<Get
   const resolvedSearchParams = await searchParams; // ожидаем, что searchParams это Promise
   const categoriesMassive = await findPizzas(resolvedSearchParams);
 
-
   return (
     <>
     <Container className="mt-10">
