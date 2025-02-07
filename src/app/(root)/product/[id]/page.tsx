@@ -5,10 +5,14 @@ import { PizzaImage } from '@/components/shared/pizza-image';
 import {ChoosePizzaForm} from '@/components/shared/choose-pizza-form';
 import { ProductForm } from '@/components/shared/product-form';
 
-
+type ProductPageProps = {
+  params: Promise<{ id: string }>;
+};
 //отдельная страница продукта
 
-export default async function ProductPage({ params: { id } }: { params: { id: string } }) {
+export default async function ProductPage({ params }: ProductPageProps) {
+  const { id } = await params;
+
   const product = await prisma.product.findFirst({
     where: { id: Number(id) },
     include: {
