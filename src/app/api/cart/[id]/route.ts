@@ -2,9 +2,15 @@ import { prisma } from '@@/prisma/prisma-client';
 import { updateCartTotalAmount } from '@/components/shared/lib/update-cart-total-amount';
 import { NextRequest, NextResponse } from 'next/server';
 
-export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
+type RequestProps = {
+  params: Promise<{ id: string }>;
+};
+
+export async function PATCH(req: NextRequest, { params }: RequestProps) {
+  const requestParams = await params;
+
   try {
-    const id = Number(params.id);
+    const id = Number(requestParams.id);
     const data = (await req.json()) as { quantity: number };
     const token = req.cookies.get('cartToken')?.value;
     //const token = "Token"
@@ -40,9 +46,10 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
   }
 }
 
-export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(req: NextRequest, { params }: RequestProps) {
+  const requestParams = await params;
   try {
-    const id = Number(params.id);
+    const id = Number(requestParams.id);
     const token = req.cookies.get('cartToken')?.value;
     //const token = "Token"
     if (!token) {
@@ -51,7 +58,7 @@ export async function DELETE(req: NextRequest, { params }: { params: { id: strin
 
     const cartItem = await prisma.cartItem.findFirst({
       where: {
-        id: Number(params.id),
+        id: Number(requestParams.id),
       },
     });
 
@@ -61,7 +68,7 @@ export async function DELETE(req: NextRequest, { params }: { params: { id: strin
 
     await prisma.cartItem.delete({
       where: {
-        id: Number(params.id),
+        id: Number(requestParams.id),
       },
     });
 

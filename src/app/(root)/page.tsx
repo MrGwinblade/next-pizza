@@ -8,10 +8,9 @@ import { findPizzas, GetSearchParams } from "@/components/shared/lib/find-pizzas
 import { Stories } from "@/components/shared/stories";
 
 
-export default async function Home({ searchParams }: { searchParams: GetSearchParams }) {
-  const categoriesMassive = await findPizzas(searchParams);
-
-
+export default async function Home({ searchParams }: { searchParams: Promise<GetSearchParams>  }) {
+  const resolvedSearchParams = await searchParams; // ожидаем, что searchParams это Promise
+  const categoriesMassive = await findPizzas(resolvedSearchParams);
 
   return (
     <>

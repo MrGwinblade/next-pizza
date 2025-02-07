@@ -1,12 +1,16 @@
-import { ChooseProductModal, Container } from '@/components/shared';
+import { ChooseProductModal } from '@/components/shared';
 import { prisma } from '@@/prisma/prisma-client';
 import { notFound } from 'next/navigation';
-import { PizzaImage } from '@/components/shared/pizza-image';
-import {ChoosePizzaForm} from '@/components/shared/choose-pizza-form';
 
 //модальное окно продукта, параллельный рендер
 
-export default async function ProductModalPage({ params: { id } }: { params: { id: string } }) {
+type ProductPageProps = {
+  params: Promise<{ id: string }>;
+};
+
+export default async function ProductModalPage({ params }: ProductPageProps) {
+  const { id } = await params;
+
   const product = await prisma.product.findFirst({
     where: {
       id: Number(id),
@@ -23,11 +27,5 @@ export default async function ProductModalPage({ params: { id } }: { params: { i
 
   return (
     <ChooseProductModal product={product} />
-    // <Container className="flex flex-col my-10 fixed">
-    //     {/* <ProductForm product={product} /> */}
-    //     {/* <PizzaImage imageUrl={product.imageUrl} size={40} /> */}
-       //<ChoosePizzaForm onSubmit={() => {console.log('submit') }} imageUrl={product.imageUrl} name={product.name} items={product.items} ingredients={product.ingredients} loading={false} /> 
-        
-    // </Container>
   );
 }
