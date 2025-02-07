@@ -2,8 +2,6 @@ import { ChooseProductModal } from '@/components/shared';
 import { prisma } from '@@/prisma/prisma-client';
 import { notFound } from 'next/navigation';
 
-//модальное окно продукта, параллельный рендер
-
 type ProductPageProps = {
   params: Promise<{ id: string }>;
 };
